@@ -69,7 +69,7 @@ const SpeechToText = ()=>{
         
         };
         manageSound();
-    });
+    },[isPlaying]);
 
 
     
