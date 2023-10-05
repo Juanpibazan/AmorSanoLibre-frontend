@@ -1,8 +1,10 @@
 import React, {useState,useEffect,useRef} from 'react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import axios from 'axios';
+import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
+import { Howl } from 'howler';
 
-import Player from './Player';
+//import Player from './Player';
 
 const SpeechToText = ()=>{
 
@@ -51,6 +53,15 @@ const SpeechToText = ()=>{
         });
         console.log(data);
 
+    };
+
+    const audioPlay = (audio)=>{
+        const sound = new Howl({
+            src:audio,
+            html5:true
+        });
+        sound.play();
+        console.log('PLAYING!!!!');
     };
     
     useEffect(()=>{
@@ -109,7 +120,7 @@ const SpeechToText = ()=>{
                 <p ref={completionRef}>{respuesta}</p>
             </div>
             {/*<audio ref={audioElem} src='https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D' />*/}
-            <Player />
+            <BsFillPlayCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>audioPlay('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D')} />
         </div>
     )
 };
