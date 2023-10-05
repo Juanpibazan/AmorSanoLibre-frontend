@@ -55,11 +55,21 @@ const SpeechToText = ()=>{
 
     };
 
-    const sound = new Howl({
-        src:'https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D',
-        html5:true,
-        preload: true
-    });
+    useEffect(()=>{
+        const manageSound = ()=>{
+            const sound = new Howl({
+                src:'https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D',
+                html5:true
+            });
+            if(isPlaying){
+                sound.play();
+            } else{
+                sound.pause();
+            }
+        
+        };
+        manageSound();
+    },[isPlaying]);
 
 
     
@@ -119,8 +129,8 @@ const SpeechToText = ()=>{
                 <p ref={completionRef}>{respuesta}</p>
             </div>
             {/*<audio ref={audioElem} src='https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D' />*/}
-            <BsFillPlayCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>sound.play()} />
-            <BsFillPauseCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>sound.pause()} />
+            <BsFillPlayCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>setIsPlaying(true)} />
+            <BsFillPauseCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>setIsPlaying(false)} />
         </div>
     )
 };
