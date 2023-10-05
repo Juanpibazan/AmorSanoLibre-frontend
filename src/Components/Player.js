@@ -33,6 +33,7 @@ const Player = ()=>{
             html5:true
         });
         sound.play();
+        console.log('PLAYING!!!!');
     };
 
     return (

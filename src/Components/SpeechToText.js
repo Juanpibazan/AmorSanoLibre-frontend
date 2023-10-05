@@ -83,7 +83,7 @@ const SpeechToText = ()=>{
         };
         makeItSpeak(msg);*/
         speak(respuesta);
-    },[respuesta]);
+    },[respuesta,listening]);
 
 
     if(!browserSupportsSpeechRecognition){
