@@ -98,7 +98,7 @@ const SpeechToText = ()=>{
 
         console.log('Text:', text);
         console.log('Listening:', listening);
-    },[text,listening]);
+    },[listening]);
 
     useEffect(()=>{
         /*const makeItSpeak = (msg)=>{
@@ -110,8 +110,8 @@ const SpeechToText = ()=>{
             }
         };
         makeItSpeak(msg);*/
-        speak(respuesta);
-    },[respuesta,listening]);
+        speak(completionRef.current.innerText);
+    },[completion]);
 
 
     if(!browserSupportsSpeechRecognition){
