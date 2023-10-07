@@ -2,6 +2,7 @@ import React, {useState,useEffect,useRef} from 'react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import axios from 'axios';
 import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
+import { BiRefresh } from 'react-icons/bi';
 import { Howl } from 'howler';
 
 //import Player from './Player';
@@ -12,6 +13,7 @@ const SpeechToText = ()=>{
     const [respuesta,setRespuesta] = useState('');
     const [completion,setCompletion] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
+    const [howlSound, setHowlSound] = useState(null);
 
     const completionRef = useRef();
     const audioElem =useRef();
@@ -38,6 +40,8 @@ const SpeechToText = ()=>{
         });
         console.log(data);
         setRespuesta(data.respuesta);
+        setHowlSound(null);
+        createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
     };
 
     const speak = async (text)=>{
@@ -71,48 +75,66 @@ const SpeechToText = ()=>{
         manageSound();
     },[isPlaying]);*/
 
-    const audioPlay = (audio)=>{
+    const createSound = (audio)=>{
         const sound = new Howl({
             src:audio,
             html5:true
         });
-        sound.play();
-        console.log('PLAYING!!');
+        return setHowlSound(sound);
+        //sound.play();
+        //console.log('PLAYING!!');
     };
 
-    
+
     useEffect(()=>{
-        setText(transcript);
+        if(transcript!==''){
+            setText(transcript);
+        }
+        return;
     },[transcript]);
     
     useEffect(()=>{
         const makePostCall = ()=>{
             if(text!=='' && !listening){
                 sendPrompt(text);
-                console.log('completionRef: ',completionRef);
-                setCompletion(completionRef.current.innerText);
+                //console.log('completionRef: ',completionRef);
+                //setCompletion(completionRef.current.innerText);
             };
         };
         makePostCall();
         //speak(completion);
-
         console.log('Text:', text);
         console.log('Listening:', listening);
     },[listening]);
 
     useEffect(()=>{
-        /*const makeItSpeak = (msg)=>{
-            if(completion!=='' & !listening){
-                //speak(completion);
-                //msg.text = 'Hola chat';
-                msg.text = completion;
-                window.speechSynthesis.speak(msg);
-            }
-        };
-        makeItSpeak(msg);*/
-        speak(completionRef.current.innerText);
-    },[completion]);
+        console.log('completionRef: ',completionRef);
+        setCompletion(respuesta);
+        speak(respuesta);
+        console.log(`speak(${respuesta})`);
+        setTimeout(()=>{
+            createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
+        },5000);
+    },[respuesta]);
 
+    const audioPlay = ()=>{
+        //const sound = createSound(audio);
+        howlSound.play();
+        console.log('PLAYING!!');
+    };
+
+    const audioPause = ()=>{
+        //const sound = createSound(audio);
+        howlSound.pause();
+        console.log('PAUSED!!');
+    };
+
+    const refeshAudio = ()=>{
+        howlSound.stop();
+        howlSound.unload();
+        setHowlSound(null);
+        createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
+    };
 
     if(!browserSupportsSpeechRecognition){
         return (
@@ -139,8 +161,9 @@ const SpeechToText = ()=>{
             {/*<audio ref={audioElem} src='https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D' />*/}
             {respuesta!=='' && (
             <div>
-                <BsFillPlayCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>audioPlay('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D')} />
-                {/*<BsFillPauseCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>setIsPlaying(false)} /> */}
+                <BsFillPlayCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>audioPlay()} />
+                <BsFillPauseCircleFill style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={()=>audioPause()} />
+                <BiRefresh style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={refeshAudio} />
             </div>
             )}
         </div>
