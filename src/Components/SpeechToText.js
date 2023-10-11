@@ -55,7 +55,7 @@ const SpeechToText = ()=>{
                 "Content-Type":"application/json"
             }
         });
-        console.log(data);
+        console.log('Response from /speak endpoint: ',data);
 
     };
 
