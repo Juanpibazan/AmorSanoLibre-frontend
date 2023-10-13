@@ -40,11 +40,11 @@ const SpeechToText = ()=>{
         });
         console.log(data);
         setRespuesta(data.respuesta);
-        setHowlSound(null);
-        createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
+        //setHowlSound(null);
+        //createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
     };
 
-    const speak = async (text)=>{
+    /*const speak = async (text)=>{
         const {data} = await axios({
             method:'post',
             url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/speak',
@@ -57,7 +57,7 @@ const SpeechToText = ()=>{
         });
         console.log('Response from /speak endpoint: ',data);
 
-    };
+    };*/
 
     /*useEffect(()=>{
         const manageSound = ()=>{
@@ -108,13 +108,28 @@ const SpeechToText = ()=>{
     },[listening]);
 
     useEffect(()=>{
-        console.log('completionRef: ',completionRef);
-        setCompletion(respuesta);
-        speak(respuesta);
-        console.log(`speak(${respuesta})`);
-        setTimeout(()=>{
-            createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
-        },5000);
+        const speak = async (text)=>{
+            const {data} = await axios({
+                method:'post',
+                url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/speak',
+                data:{
+                    completion: text
+                   },
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            });
+            console.log('Response from /speak endpoint: ',data);
+            setTimeout(()=>{
+                createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
+            },5000);
+        };
+        if(respuesta !== ''){
+            console.log('completionRef: ',completionRef);
+            setCompletion(respuesta);
+            speak(respuesta);
+            console.log(`speak(${respuesta})`);
+        }
     },[respuesta]);
 
     const audioPlay = ()=>{
