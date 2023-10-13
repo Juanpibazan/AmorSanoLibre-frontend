@@ -78,7 +78,8 @@ const SpeechToText = ()=>{
     const createSound = (audio)=>{
         const sound = new Howl({
             src:audio,
-            html5:true
+            html5:true,
+            autoplay: true
         });
         return setHowlSound(sound);
         //sound.play();
