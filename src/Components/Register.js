@@ -77,6 +77,8 @@ const Register = ()=>{
                     localStorage.setItem('user',JSON.stringify({email,firstName,lastName}))
                     setTimeout(()=>navigate('/'),6000);
                     //return toast('Usuario agregado!');
+                } else{ 
+                    toast.update(id,{render:'El usuario no pudo ser agregado', type:'error',isLoading:false});
                 }
             } catch(err){
                 alert(err);
