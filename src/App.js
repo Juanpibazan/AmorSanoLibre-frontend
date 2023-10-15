@@ -3,6 +3,7 @@ import {Routes, Route} from 'react-router-dom';
 import SpeechToText from './Components/SpeechToText';
 import Header from './Components/Header';
 import Landing from './Components/Landing';
+import Register from './Components/Register';
 
 import './App.css';
 
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Landing />} />
         <Route path='/ask' element={<SpeechToText />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
     </div>
   );
