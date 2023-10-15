@@ -5,10 +5,15 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useStateValue } from '../context/StateProvider';
+import { actionTypes } from '../context/reducer';
+
 const Register = ()=>{
 
     const [email,setEmail] = useState('');
     const [emailHidden, setEmailHidden] = useState(false);
+    const [password,setPassword] = useState('');
+    const [passwordHidden, setPasswordHidden] = useState(true);
     const [firstName, setFirstName] = useState('');
     const [firstNameHidden, setFirstNameHidden] = useState(true);
     const [lastName, setLastName] = useState('');
@@ -20,12 +25,17 @@ const Register = ()=>{
     const [voiceType, setVoiceType] = useState('');
     const [voiceTypeHidden, setVoiceTypeHidden] = useState(true);
 
+    const [{user,dispatch}] = useStateValue();
+
     const navigate = useNavigate();
 
     const nextInput = async ()=>{
         if(!emailHidden && email !==''){
-            setFirstNameHidden(!firstNameHidden);
+            setPasswordHidden(!passwordHidden);
             setEmailHidden(!emailHidden);
+        } else if(!passwordHidden && password !==''){
+            setFirstNameHidden(!firstNameHidden);
+            setPasswordHidden(!passwordHidden);
         } else if(!firstNameHidden && firstName !==''){
             setLastNameHidden(!lastNameHidden)
             setFirstNameHidden(!firstNameHidden);
@@ -46,6 +56,7 @@ const Register = ()=>{
                     url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/users/register',
                     data:{
                         email,
+                        password,
                         firstName,
                         lastName,
                         birthDate,
@@ -59,6 +70,11 @@ const Register = ()=>{
                 if(response.status===201){
                     //alert('Usuario agregado!');
                     toast.update(id,{render:'Usuario agregado!', type:'success',isLoading:false});
+                    dispatch({
+                        type: actionTypes.SET_USER,
+                        user: {email,firstName,lastName}
+                    });
+                    localStorage.setItem('user',JSON.stringify({email,firstName,lastName}))
                     setTimeout(()=>navigate('/'),6000);
                     //return toast('Usuario agregado!');
                 }
@@ -84,6 +100,9 @@ const Register = ()=>{
             setFirstNameHidden(!firstNameHidden);
         } else if(!firstNameHidden){
             setFirstNameHidden(!firstNameHidden);
+            setPasswordHidden(!passwordHidden);
+        } else if(!passwordHidden){
+            setPasswordHidden(!passwordHidden);
             setEmailHidden(!emailHidden);
         }
     }
@@ -101,6 +120,7 @@ const Register = ()=>{
                 <button onClick={lastInput}>Atrás</button>
                 <div >
                     <input type='email' required={true} hidden={emailHidden} placeholder='E-mail' value={email} onChange={(e)=>setEmail(e.target.value)}  />
+                    <input type='password' required={true} hidden={passwordHidden} placeholder='Password' value={password} onChange={(e)=>setPassword(e.target.value)}  />
                     <input type='text' required={true} hidden={firstNameHidden} placeholder='Nombres' value={firstName} onChange={(e)=>setFirstName(e.target.value)}  />
                     <input type='text' required={true} hidden={lastNameHidden} placeholder='Apellidos' value={lastName} onChange={(e)=>setLastName(e.target.value)}  />
                     <input type='date' required={true} hidden={birthDateHidden} placeholder='Fecha de Nacimiento' value={birthDate} onChange={(e)=>setBirthDate(e.target.value.toString())}  />

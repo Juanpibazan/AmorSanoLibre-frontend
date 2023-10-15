@@ -1,3 +1,3 @@
 export const initialState = {
-    user: null
+    user: localStorage.getItem('user') ==='undefined' ? localStorage.clear() : JSON.parse(localStorage.getItem('user'))
 };
