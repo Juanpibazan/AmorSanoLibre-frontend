@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import Logo from '../img/brandLogo.PNG';
 import Logo3 from '../img/brandlogo3.PNG';
 
+import { useStateValue } from '../context/StateProvider';
+
 const Header = ()=>{
+
+    const [{user},dispatch] = useStateValue();
 
     return (
         <div>
@@ -13,8 +17,12 @@ const Header = ()=>{
                 </div>
                 <ul className='nav-list'>
                     <li><Link to={'/ask'} >Get Started</Link></li>
-                    <li><Link to={'/register'}>Sign Up</Link></li>
-                    <li><Link to={'/'}>Log In</Link></li>
+                    { !user && (
+                            <li><Link to={'/register'}>Sign Up</Link></li>
+                    )}
+                    {!user && (
+                        <li><Link to={'/'}>Log In</Link></li>
+                    )}
                     <li><Link to={'/'}>Upgrade</Link></li>
                 </ul>
             </nav>

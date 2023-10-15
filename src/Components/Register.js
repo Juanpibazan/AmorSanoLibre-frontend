@@ -25,7 +25,7 @@ const Register = ()=>{
     const [voiceType, setVoiceType] = useState('');
     const [voiceTypeHidden, setVoiceTypeHidden] = useState(true);
 
-    const [{user,dispatch}] = useStateValue();
+    const [{user},dispatch] = useStateValue();
 
     const navigate = useNavigate();
 
@@ -81,6 +81,7 @@ const Register = ()=>{
                     toast.update(id,{render:'El usuario no pudo ser agregado', type:'error',isLoading:false});
                 }
             } catch(err){
+                console.log(err);
                 alert(err);
             }
 
