@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import moment from 'moment';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,7 +27,8 @@ const Register = ()=>{
     const [voiceType, setVoiceType] = useState('');
     const [voiceTypeHidden, setVoiceTypeHidden] = useState(true);
 
-    const [{user},dispatch] = useStateValue();
+
+    const [{user,session},dispatch] = useStateValue();
 
     const navigate = useNavigate();
 
@@ -50,7 +53,9 @@ const Register = ()=>{
             setGenderHidden(!genderHidden);
         } else if(!voiceTypeHidden && voiceType !==''){
             try{
-                const id = toast.loading("Por favor espere...");
+                const id = toast.loading("Por favor espere...",{
+                    closeOnClick:true
+                });
                 const response = await axios({
                     method:'post',
                     url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/users/register',
@@ -69,20 +74,36 @@ const Register = ()=>{
                 });
                 if(response.status===201){
                     //alert('Usuario agregado!');
-                    toast.update(id,{render:'Usuario agregado!', type:'success',isLoading:false});
+                    const session_id = uuidv4();
+                    const current_time = moment().format("YYYY-MM-DD HH:mm:ss");
+                    const expiration_time = moment(current_time).add(2,'minutes').format("YYYY-MM-DD HH:mm:ss");
+                    toast.update(id,{render:response.data.message, type:'success',isLoading:false});
                     dispatch({
                         type: actionTypes.SET_USER,
                         user: {email,firstName,lastName}
                     });
+                    dispatch({
+                        type: actionTypes.SET_SESSION,
+                        session: {
+                            session_id,
+                            expiration_time
+                        }
+                    });
                     localStorage.setItem('user',JSON.stringify({email,firstName,lastName}))
+                    localStorage.setItem('session', JSON.stringify({session_id,expiration_time}))
                     setTimeout(()=>navigate('/'),6000);
                     //return toast('Usuario agregado!');
                 } else{ 
-                    toast.update(id,{render:'El usuario no pudo ser agregado', type:'error',isLoading:false});
+                    toast.update(id,{render:'Usuario no pudo ser agregado', type:'error',isLoading:false});
+                    
                 }
             } catch(err){
-                console.log(err);
-                alert(err);
+                console.log(err.response.data.message);
+                toast(err.response.data.message,{
+                    type:'error',
+                    position:'top-center'
+                });
+                //alert(err);
             }
 
         }
@@ -111,9 +132,23 @@ const Register = ()=>{
     }
 
     useEffect(()=>{
-        console.log(email);
-        console.log(birthDate);
-    },[birthDate]);
+        const createCurrentDT = ()=>{
+            if(session !== null){
+                const current_dt = moment().format("YYYY-MM-DD HH:mm:ss");
+                const exp_time = session.expiration_time;
+                if(current_dt===exp_time){
+                    dispatch({
+                        type: actionTypes.SET_SESSION,
+                        session:null
+                    });
+                    localStorage.removeItem('session');
+                }
+            };
+        }
+        setInterval(()=>{
+            createCurrentDT();
+        },1000);
+    },[]);
 
     return (
         <div style={{textAlign:'center', color:'#fff'}}>

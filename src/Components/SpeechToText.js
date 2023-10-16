@@ -4,6 +4,11 @@ import axios from 'axios';
 import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
 import { BiRefresh } from 'react-icons/bi';
 import { Howl } from 'howler';
+import moment from 'moment';
+
+import { useStateValue } from '../context/StateProvider';
+import { actionTypes } from '../context/reducer';
+
 
 //import Player from './Player';
 
@@ -17,6 +22,7 @@ const SpeechToText = ()=>{
 
     const completionRef = useRef();
     const audioElem =useRef();
+    const [{session},dispatch] = useStateValue();
     /*const msg = new SpeechSynthesisUtterance();
     msg.lang = "es";*/
 
@@ -151,6 +157,26 @@ const SpeechToText = ()=>{
         setHowlSound(null);
         createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
     };
+
+    useEffect(()=>{
+        const createCurrentDT = ()=>{
+            if(session !== null){
+                const current_dt = moment().format("YYYY-MM-DD HH:mm:ss");
+                const exp_time = session.expiration_time;
+                if(current_dt===exp_time){
+                    dispatch({
+                        type: actionTypes.SET_SESSION,
+                        session:null
+                    });
+                    localStorage.removeItem('session');
+                }
+            };
+        }
+        setInterval(()=>{
+            createCurrentDT();
+        },1000);
+    },[]);
+
 
     if(!browserSupportsSpeechRecognition){
         return (
