@@ -188,7 +188,7 @@ const SpeechToText = ()=>{
 
 
     return (
-        <div>
+        <div className='SpeechToText'>
             Speech To Text
             <p>Microphone { listening ? 'on' : 'off' }</p>
             <button onClick={()=>SpeechRecognition.startListening({

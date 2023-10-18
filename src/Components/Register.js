@@ -3,6 +3,7 @@ import { json, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+import {AiOutlineEyeInvisible, AiOutlineEye} from 'react-icons/ai';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,7 +28,7 @@ const Register = ()=>{
     const [voiceType, setVoiceType] = useState('');
     const [voiceTypeHidden, setVoiceTypeHidden] = useState(true);
 
-
+    const [passVisible, setPassVisible] = useState(false);
     const [{user,session},dispatch] = useStateValue();
 
     const navigate = useNavigate();
@@ -150,34 +151,46 @@ const Register = ()=>{
         },1000);
     },[]);
 
+    useEffect(()=>{
+        const makePassVisible = ()=>{
+            if(passVisible){
+                document.getElementById('password').setAttribute('type','text');
+            } else {
+                document.getElementById('password').setAttribute('type','password');
+            }
+        };
+        makePassVisible();
+    },[passVisible]);
+
+
     return (
-        <div style={{textAlign:'center', color:'#fff'}}>
-            <h1>Registrate en Via Amoris</h1>
-            <h4>Comparte con nosotros algunos de tus datos para poder ofrecerte una mejor experiencia</h4>
+        <div className='Register' style={{textAlign:'center', color:'#fff',padding:'0.5rem 0.5rem',overflow:'visible'}}>
+            <h1 style={{fontSize:'80px',display:'flex', justifyContent:'center', alignItems:'center',verticalAlign:'middle', lineHeight:'100%',height:'30%'}}>Registrate en Via Amoris</h1>
+            <h2 style={{fontSize:'50px'}}>Comparte con nosotros algunos de tus datos para poder ofrecerte una mejor experiencia</h2>
             <div style={{textAlign:'center',display:'flex',justifyContent:'space-evenly'}}>
-                <button onClick={lastInput}>Atrás</button>
-                <div >
+                <button id='register-back-btn'  className='register-btn' onClick={lastInput}>Atrás</button>
+                <div className='register-input-container' >
                     <input type='email' required={true} hidden={emailHidden} placeholder='E-mail' value={email} onChange={(e)=>setEmail(e.target.value)}  />
-                    <input type='password' required={true} hidden={passwordHidden} placeholder='Password' value={password} onChange={(e)=>setPassword(e.target.value)}  />
+                    <input type='password' id='password' required={true} hidden={passwordHidden} placeholder='Password' value={password} onChange={(e)=>setPassword(e.target.value)}  /><span style={passwordHidden ? {display:'none'} : {display:'inline'}} onClick={()=>setPassVisible(!passVisible)}>{passVisible ? <AiOutlineEyeInvisible style={{fontSize:'25px',fontWeight:'bold',color:'#254e77'}}/> : <AiOutlineEye style={{fontSize:'25px',fontWeight:'bold',color:'#254e77'}} />}</span>
                     <input type='text' required={true} hidden={firstNameHidden} placeholder='Nombres' value={firstName} onChange={(e)=>setFirstName(e.target.value)}  />
                     <input type='text' required={true} hidden={lastNameHidden} placeholder='Apellidos' value={lastName} onChange={(e)=>setLastName(e.target.value)}  />
                     <input type='date' required={true} hidden={birthDateHidden} placeholder='Fecha de Nacimiento' value={birthDate} onChange={(e)=>setBirthDate(e.target.value.toString())}  />
-                    <div style={!genderHidden ? {display:'block'} : {display:'none'}}>
-                        <label>Género</label>
-                        <div style={!genderHidden ? {display:'flex',justifyContent:'space-evenly',width:'100%'} : {display:'none'}}>
-                            <input required={true} type='radio' name='gender' hidden={genderHidden} value='Masculino' onChange={(e)=>setGender(e.target.value)}  />Masculino
-                            <input required={true} type='radio' name='gender' hidden={genderHidden} value='Femenino' onChange={(e)=>setGender(e.target.value)}  />Femenino
+                    <div style={!genderHidden ? {display:'block',textAlign:'center'} : {display:'none'}}>
+                        <label style={{fontSize:'30px', fontWeight:'bold',color:'#254e77'}}>Género</label>
+                        <div className='radio-input-container' style={!genderHidden ? {display:'flex',justifyContent:'space-evenly',width:'100%'} : {display:'none'}}>
+                            <input className='radio-input' required={true} type='radio' name='gender' hidden={genderHidden} value='Masculino' onChange={(e)=>setGender(e.target.value)}  /><span style={{fontSize:'30px'}}>Masculino</span>
+                            <input className='radio-input' required={true} type='radio' name='gender' hidden={genderHidden} value='Femenino' onChange={(e)=>setGender(e.target.value)}  /><span style={{fontSize:'30px'}}>Femenino</span>
                         </div>
                     </div>
                     <div style={!voiceTypeHidden ? {display:'block'} : {display:'none'}}>
-                        <label>Tipo de Voz para tu orientador</label>
-                        <div style={!voiceTypeHidden ? {display:'flex',justifyContent:'space-evenly',width:'100%'} : {display:'none'}}>
-                            <input type='radio' name='voice_type' hidden={voiceTypeHidden} value='Marcelo' onChange={(e)=>setVoiceType(e.target.value)}  />Marcelo
-                            <input type='radio' name='voice_type' hidden={voiceTypeHidden} value='Patricia' onChange={(e)=>setVoiceType(e.target.value)}  />Patricia
+                        <label style={{fontSize:'30px', fontWeight:'bold',color:'#254e77'}}>Tipo de Voz para tu orientador</label>
+                        <div className='radio-input-container' style={!voiceTypeHidden ? {display:'flex',justifyContent:'space-evenly',width:'100%'} : {display:'none'}}>
+                            <input className='radio-input' type='radio' name='voice_type' hidden={voiceTypeHidden} value='Marcelo' onChange={(e)=>setVoiceType(e.target.value)}  /><span style={{fontSize:'30px'}}>Marcelo</span>
+                            <input className='radio-input' type='radio' name='voice_type' hidden={voiceTypeHidden} value='Patricia' onChange={(e)=>setVoiceType(e.target.value)}  /><span style={{fontSize:'30px'}}>Patricia</span>
                         </div>
                     </div>
                 </div>
-                <button onClick={nextInput}>{!voiceTypeHidden ? 'Finalizar' : 'Siguiente'}</button>
+                <button id='register-next-btn' className='register-btn'  onClick={nextInput}>{!voiceTypeHidden ? 'Finalizar' : 'Siguiente'}</button>
             </div>
             <ToastContainer position='top-center' />
         </div>

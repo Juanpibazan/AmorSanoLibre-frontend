@@ -31,7 +31,7 @@ const Landing = ()=>{
 
 
     return (
-        <div>
+        <div className='Landing'>
             LANDING
         </div>
     )
