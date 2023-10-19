@@ -4,6 +4,7 @@ import SpeechToText from './Components/SpeechToText';
 import Header from './Components/Header';
 import Landing from './Components/Landing';
 import Register from './Components/Register';
+import Login from './Components/Login';
 
 import './App.css';
 
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<Landing />} />
         <Route path='/ask' element={<SpeechToText />} />
         <Route path='/register' element={<Register />} />
+        <Route path='login' element={<Login />} />
       </Routes>
     </div>
   );

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: julius;
+  src: url('./fonts/Julius_Sans_One/JuliusSansOne-Regular.ttf');
+}
+
 html { 
   height: 100%;
   width: 100%;
@@ -8,6 +13,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
+  font-family: julius;
 }
 
 
@@ -32,18 +38,19 @@ body {
 }
 
 .logo-container{
-  width: 30%;
+  width: 20%;
   color: #c896b8;
 }
 
 .nav-list{
-  width: 60%;
+  width: 80%;
   display: flex;
   justify-content: space-evenly;
 }
 
 .nav-list >li{
   list-style: none;
+  line-height: 30px;
 }
 
 .nav-list a{
@@ -53,14 +60,20 @@ body {
   font-size: 30px;
 }
 
-
+.menu-icon{
+  display: none;
+}
 
 .nav-list>li>a:hover{
   color: #c896b8;
 }
 
-.Landing, .Register, .SpeechToText{
+.Landing, .Register, .Login, .SpeechToText{
   height: 100vh;
+}
+
+.Register > h1{
+  font-size:80px;
 }
 
 .register-btn{
@@ -71,6 +84,7 @@ body {
   font-weight: bold;
   cursor:pointer;
   border: 2px solid #254e77;
+  font-family: juilus;
 }
 
 #register-back-btn{
@@ -167,6 +181,49 @@ body {
     height: 30px !important;
   }
 
+  .Register>h1{
+    font-size: 70px;
+  }
+
+
+
+  .nav-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 100%;
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+  }
+  
+  .logo-container{
+    width: 30%;
+    color: #c896b8;
+  }
+
+  .logo-container img{
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .nav-list{
+    display: none;
+    width: 50%;
+  }
+
+  .nav-list>li{
+    margin-bottom: 1rem;
+  }
+
+  .menu-icon{
+    display: block;
+    width: 40%;
+  }
+
+  .menu-icon:hover ~ .nav-list, .nav-list:hover{
+    display: block;
+  }
 
 }
 

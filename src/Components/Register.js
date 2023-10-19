@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { json, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
@@ -77,7 +77,7 @@ const Register = ()=>{
                     //alert('Usuario agregado!');
                     const session_id = uuidv4();
                     const current_time = moment().format("YYYY-MM-DD HH:mm:ss");
-                    const expiration_time = moment(current_time).add(2,'minutes').format("YYYY-MM-DD HH:mm:ss");
+                    const expiration_time = moment(current_time).add(20,'minutes').format("YYYY-MM-DD HH:mm:ss");
                     toast.update(id,{render:response.data.message, type:'success',isLoading:false});
                     dispatch({
                         type: actionTypes.SET_USER,
@@ -92,7 +92,7 @@ const Register = ()=>{
                     });
                     localStorage.setItem('user',JSON.stringify({email,firstName,lastName}))
                     localStorage.setItem('session', JSON.stringify({session_id,expiration_time}))
-                    setTimeout(()=>navigate('/'),6000);
+                    setTimeout(()=>navigate('/ask'),6000);
                     //return toast('Usuario agregado!');
                 } else{ 
                     toast.update(id,{render:'Usuario no pudo ser agregado', type:'error',isLoading:false});
@@ -165,7 +165,7 @@ const Register = ()=>{
 
     return (
         <div className='Register' style={{textAlign:'center', color:'#fff',padding:'0.5rem 0.5rem',overflow:'visible'}}>
-            <h1 style={{fontSize:'80px',display:'flex', justifyContent:'center', alignItems:'center',verticalAlign:'middle', lineHeight:'100%',height:'30%'}}>Registrate en Via Amoris</h1>
+            <h1 style={{display:'flex', justifyContent:'center', alignItems:'center',verticalAlign:'middle', lineHeight:'100%',height:'30%'}}>Registrate en Via Amoris</h1>
             <h2 style={{fontSize:'50px'}}>Comparte con nosotros algunos de tus datos para poder ofrecerte una mejor experiencia</h2>
             <div style={{textAlign:'center',display:'flex',justifyContent:'space-evenly'}}>
                 <button id='register-back-btn'  className='register-btn' onClick={lastInput}>Atrás</button>
