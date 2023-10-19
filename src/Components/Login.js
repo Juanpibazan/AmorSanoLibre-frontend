@@ -128,7 +128,7 @@ const Login = ()=>{
                     <input type='email' required={true} hidden={emailHidden} placeholder='E-mail' value={email} onChange={(e)=>setEmail(e.target.value)}  />
                     <input type='password' id='password' required={true} hidden={passwordHidden} placeholder='Password' value={password} onChange={(e)=>setPassword(e.target.value)}  /><span style={passwordHidden ? {display:'none'} : {display:'inline'}} onClick={()=>setPassVisible(!passVisible)}>{passVisible ? <AiOutlineEyeInvisible style={{fontSize:'25px',fontWeight:'bold',color:'#254e77'}}/> : <AiOutlineEye style={{fontSize:'25px',fontWeight:'bold',color:'#254e77'}} />}</span>
                 </div>
-                <button id='register-next-btn' className='register-btn'  onClick={nextInput}>{!passwordHidden ? 'Finalizar' : 'Siguiente'}</button>
+                <button id='register-next-btn' className='register-btn'  onClick={nextInput}>{!passwordHidden ? 'Iniciar sesión' : 'Siguiente'}</button>
             </div>
             <ToastContainer position='top-center' />
         </div>

@@ -51,6 +51,7 @@ body {
 .nav-list >li{
   list-style: none;
   line-height: 30px;
+  margin-right: 1rem;
 }
 
 .nav-list a{
@@ -72,7 +73,7 @@ body {
   height: 100vh;
 }
 
-.Register > h1{
+.Register > h1, .Login>h1{
   font-size:80px;
 }
 
