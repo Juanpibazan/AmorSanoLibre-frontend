@@ -24,6 +24,7 @@ const SpeechToText = ()=>{
     const [ip, setIp] = useState('');
     const [voiceType, setVoiceType] = useState(user ? user.voice_type : '');
     const [requestType, setRequestType] = useState('');
+    const [completionRequestId, setCompletioRequestId] = useState(0);
 
     const completionRef = useRef();
     const audioElem =useRef();
@@ -39,6 +40,7 @@ const SpeechToText = ()=>{
         } = useSpeechRecognition();
 
     const sendPrompt = async (transcript)=>{
+        const emailOrSession = user ? user.email : session.session_id
         const {data} = await axios({
             method:'post',
             url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/',
@@ -46,7 +48,8 @@ const SpeechToText = ()=>{
                 prompt: transcript,
                 ipAddress: ip,
                 requestType: requestType,
-                voiceType: voiceType
+                voiceType: voiceType,
+                emailOrSession
                },
             headers:{
                 "Content-Type":"application/json"
@@ -54,6 +57,7 @@ const SpeechToText = ()=>{
         });
         console.log(data);
         setRespuesta(data.respuesta);
+        setCompletioRequestId(data.completion_request_id);
         //setHowlSound(null);
         //createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
     };
@@ -138,9 +142,32 @@ const SpeechToText = ()=>{
             console.log('Response from /speak endpoint: ',data);
             setTimeout(()=>{
                 createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
-            },5000);
+            },10000);
         };
+
+        const sendCompletionResponse = async ()=>{
+            const response = await axios({
+                method:'post',
+                url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/recordCompletionResponse',
+                data:{
+                    requestId: completionRequestId,
+                    responseContent: respuesta,
+                    emailOrSession: user ? user.email : session.session_id
+                },
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            });
+            if(response.status===201){
+                console.log(response.data);
+            } else{
+                console.error(response.data);
+            }
+        };
+
         if(respuesta !== ''){
+            //codigo para guardar la respuesta en bd
+            sendCompletionResponse();
             console.log('completionRef: ',completionRef);
             setCompletion(respuesta);
             speak(respuesta,voiceType);
