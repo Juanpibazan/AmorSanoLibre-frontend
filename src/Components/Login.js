@@ -51,7 +51,7 @@ const Login = ()=>{
                     toast.update(id,{render:response.data.message, type:'success',isLoading:false});
                     dispatch({
                         type: actionTypes.SET_USER,
-                        user: {email}
+                        user: response.data.user
                     });
                     dispatch({
                         type: actionTypes.SET_SESSION,
@@ -60,7 +60,7 @@ const Login = ()=>{
                             expiration_time
                         }
                     });
-                    localStorage.setItem('user',JSON.stringify({email}))
+                    localStorage.setItem('user',JSON.stringify(response.data.user))
                     localStorage.setItem('session', JSON.stringify({session_id,expiration_time}))
                     setTimeout(()=>navigate('/ask'),6000);
                     //return toast('Usuario agregado!');

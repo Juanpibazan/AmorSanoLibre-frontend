@@ -14,15 +14,19 @@ import { actionTypes } from '../context/reducer';
 
 const SpeechToText = ()=>{
 
+    const [{session,user},dispatch] = useStateValue();
     const [text,setText] = useState('');
     const [respuesta,setRespuesta] = useState('');
     const [completion,setCompletion] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
     const [howlSound, setHowlSound] = useState(null);
+    const [maxRequests, setMaxRequests] = useState(0);
+    const [ip, setIp] = useState('');
+    const [voiceType, setVoiceType] = useState(user ? user.voice_type : '');
 
     const completionRef = useRef();
     const audioElem =useRef();
-    const [{session},dispatch] = useStateValue();
+ 
     /*const msg = new SpeechSynthesisUtterance();
     msg.lang = "es";*/
 
@@ -38,7 +42,10 @@ const SpeechToText = ()=>{
             method:'post',
             url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/',
             data:{
-                prompt: transcript
+                prompt: transcript,
+                ipAddress: ip,
+                requestType: user ? 'sr' :'ur',
+                voiceType: voiceType
                },
             headers:{
                 "Content-Type":"application/json"
@@ -159,6 +166,33 @@ const SpeechToText = ()=>{
     };
 
     useEffect(()=>{
+        const getIPAddress = async ()=>{
+            const {data} = await axios({
+                method:'get',
+                url:'https://api.ipify.org/?format=json',
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            });
+            console.log('My IP Address: ', data.ip);
+            setIp(data.ip);
+            if(data.ip !== null && user === null){
+                const response = await axios({
+                    method:'post',
+                    url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/recordIPAddress',
+                    data: {
+                        ipAddress: data.ip
+                    },
+                    headers:{
+                        'Content-Type':'application/json'
+                    }
+                });
+                if(response.status===201){
+                    console.log(response.data);
+                }
+            }
+
+        };
         const createCurrentDT = ()=>{
             if(session !== null){
                 const current_dt = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -172,6 +206,7 @@ const SpeechToText = ()=>{
                 }
             };
         }
+        getIPAddress();
         setInterval(()=>{
             createCurrentDT();
         },1000);
@@ -190,6 +225,12 @@ const SpeechToText = ()=>{
     return (
         <div className='SpeechToText'>
             Speech To Text
+            {!user && (
+                <select value={voiceType} onChange={(e)=>setVoiceType(e.target.value)}>
+                    <option value='Marcelo'>Marcelo</option>
+                    <option value='Patricia'>Patricia</option>
+                </select>
+            )}
             <p>Microphone { listening ? 'on' : 'off' }</p>
             <button onClick={()=>SpeechRecognition.startListening({
                 language:'es'

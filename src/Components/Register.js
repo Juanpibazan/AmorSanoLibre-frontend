@@ -81,7 +81,7 @@ const Register = ()=>{
                     toast.update(id,{render:response.data.message, type:'success',isLoading:false});
                     dispatch({
                         type: actionTypes.SET_USER,
-                        user: {email,firstName,lastName}
+                        user: {email,firstName,lastName, birthDate,gender,voiceType}
                     });
                     dispatch({
                         type: actionTypes.SET_SESSION,
@@ -90,7 +90,7 @@ const Register = ()=>{
                             expiration_time
                         }
                     });
-                    localStorage.setItem('user',JSON.stringify({email,firstName,lastName}))
+                    localStorage.setItem('user',JSON.stringify({email,firstName,lastName, birthDate,gender,voiceType}))
                     localStorage.setItem('session', JSON.stringify({session_id,expiration_time}))
                     setTimeout(()=>navigate('/ask'),6000);
                     //return toast('Usuario agregado!');
