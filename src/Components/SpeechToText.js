@@ -23,6 +23,7 @@ const SpeechToText = ()=>{
     const [maxRequests, setMaxRequests] = useState(0);
     const [ip, setIp] = useState('');
     const [voiceType, setVoiceType] = useState(user ? user.voice_type : '');
+    const [requestType, setRequestType] = useState('');
 
     const completionRef = useRef();
     const audioElem =useRef();
@@ -44,7 +45,7 @@ const SpeechToText = ()=>{
             data:{
                 prompt: transcript,
                 ipAddress: ip,
-                requestType: user ? 'sr' :'ur',
+                requestType: requestType,
                 voiceType: voiceType
                },
             headers:{
@@ -122,12 +123,13 @@ const SpeechToText = ()=>{
     },[listening]);
 
     useEffect(()=>{
-        const speak = async (text)=>{
+        const speak = async (text,voiceType)=>{
             const {data} = await axios({
                 method:'post',
                 url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/speak',
                 data:{
-                    completion: text
+                    completion: text,
+                    voiceType
                    },
                 headers:{
                     "Content-Type":"application/json"
@@ -141,7 +143,7 @@ const SpeechToText = ()=>{
         if(respuesta !== ''){
             console.log('completionRef: ',completionRef);
             setCompletion(respuesta);
-            speak(respuesta);
+            speak(respuesta,voiceType);
             console.log(`speak(${respuesta})`);
         }
     },[respuesta]);
@@ -205,6 +207,15 @@ const SpeechToText = ()=>{
                     localStorage.removeItem('session');
                 }
             };
+        };
+        if(user !== null){
+            if(user.premium==='Y'){
+                setRequestType('pr');
+            } else if(user.premium==='N'){
+                setRequestType('sr');
+            }
+        } else{
+            setRequestType('ur');
         }
         getIPAddress();
         setInterval(()=>{
@@ -224,22 +235,23 @@ const SpeechToText = ()=>{
 
     return (
         <div className='SpeechToText'>
-            Speech To Text
+            <h1 className='speech-to-text-title'>Consulta a tu orientador</h1> <br/>
             {!user && (
-                <select value={voiceType} onChange={(e)=>setVoiceType(e.target.value)}>
+                <select className='voicetype_drop' value={voiceType} onChange={(e)=>setVoiceType(e.target.value)}>
+                    <option disabled={true}  value='Elige la voz de tu orientador'>Elige la voz de tu orientador</option>
                     <option value='Marcelo'>Marcelo</option>
-                    <option value='Patricia'>Patricia</option>
+                    <option value='Sofia'>Sofia</option>
                 </select>
             )}
-            <p>Microphone { listening ? 'on' : 'off' }</p>
+            <p className='microphone-status'>Microphone { listening ? 'on' : 'off' }</p>
             <button onClick={()=>SpeechRecognition.startListening({
                 language:'es'
             })}>Start</button>
             <button onClick={SpeechRecognition.stopListening}>Stop</button>
             <button onClick={resetTranscript}>Reset</button>
-            <p>{transcript}</p>
+            <p className='transcript'>{transcript}</p>
             <div>
-                <p ref={completionRef}>{respuesta}</p>
+                <p className='respuesta' ref={completionRef}>{respuesta}</p>
             </div>
             {/*<audio ref={audioElem} src='https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D' />*/}
             {respuesta!=='' && (

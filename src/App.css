@@ -69,7 +69,7 @@ body {
   color: #c896b8;
 }
 
-.Landing, .Register, .Login, .SpeechToText{
+.Landing, .Register, .Login{
   height: 100vh;
 }
 
@@ -112,6 +112,50 @@ body {
   width: 200px;
   height: 50px;
   border-radius: 100rem;
+}
+
+.speech-to-text-title{
+  font-size: 80px;
+  color: #fff;
+}
+
+.voicetype_drop{
+  border-radius: 100rem;
+  background-color: #254e77;
+  color: #fff;
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.microphone-status{
+  font-size: 40px;
+  color: #254e77;
+  font-weight: bolder;
+}
+
+.SpeechToText button{
+  width:200px;
+  height:50px;
+  border-radius: 100rem;
+  font-size: 20px;
+  font-weight: bold;
+  cursor:pointer;
+  border: 2px solid #fff;
+  font-family: juilus;
+  background-color: #c896b8;
+  color: #fff;
+}
+
+
+.SpeechToText button:hover{
+  color: #c896b8;
+  background-color: #fff;
+}
+
+.transcript{
+  font-weight: bold;
+  font-size: 20px;
 }
 
 
@@ -224,6 +268,16 @@ body {
 
   .menu-icon:hover ~ .nav-list, .nav-list:hover{
     display: block;
+  }
+
+  .speech-to-text-title{
+    font-size: 40px;
+  }
+  
+  .respuesta{
+    font: 8px !important;
+    font-weight: bold;
+
   }
 
 }

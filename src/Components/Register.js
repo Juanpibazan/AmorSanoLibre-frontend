@@ -81,7 +81,7 @@ const Register = ()=>{
                     toast.update(id,{render:response.data.message, type:'success',isLoading:false});
                     dispatch({
                         type: actionTypes.SET_USER,
-                        user: {email,firstName,lastName, birthDate,gender,voiceType}
+                        user: {email,firstName,lastName, birthDate,gender,voiceType,premium:'N'}
                     });
                     dispatch({
                         type: actionTypes.SET_SESSION,
@@ -90,7 +90,7 @@ const Register = ()=>{
                             expiration_time
                         }
                     });
-                    localStorage.setItem('user',JSON.stringify({email,firstName,lastName, birthDate,gender,voiceType}))
+                    localStorage.setItem('user',JSON.stringify({email,firstName,lastName, birthDate,gender,voiceType,premium:'N'}))
                     localStorage.setItem('session', JSON.stringify({session_id,expiration_time}))
                     setTimeout(()=>navigate('/ask'),6000);
                     //return toast('Usuario agregado!');
@@ -186,7 +186,7 @@ const Register = ()=>{
                         <label style={{fontSize:'30px', fontWeight:'bold',color:'#254e77'}}>Tipo de Voz para tu orientador</label>
                         <div className='radio-input-container' style={!voiceTypeHidden ? {display:'flex',justifyContent:'space-evenly',width:'100%'} : {display:'none'}}>
                             <input className='radio-input' type='radio' name='voice_type' hidden={voiceTypeHidden} value='Marcelo' onChange={(e)=>setVoiceType(e.target.value)}  /><span style={{fontSize:'30px'}}>Marcelo</span>
-                            <input className='radio-input' type='radio' name='voice_type' hidden={voiceTypeHidden} value='Patricia' onChange={(e)=>setVoiceType(e.target.value)}  /><span style={{fontSize:'30px'}}>Patricia</span>
+                            <input className='radio-input' type='radio' name='voice_type' hidden={voiceTypeHidden} value='Sofia' onChange={(e)=>setVoiceType(e.target.value)}  /><span style={{fontSize:'30px'}}>Sofia</span>
                         </div>
                     </div>
                 </div>
