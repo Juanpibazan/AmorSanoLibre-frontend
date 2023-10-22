@@ -69,7 +69,7 @@ body {
   color: #c896b8;
 }
 
-.Landing, .Register, .Login{
+.Register, .Login{
   height: 100vh;
 }
 
@@ -158,6 +158,64 @@ body {
   font-size: 20px;
 }
 
+.landing-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 100%;
+}
+
+.landing-left-container{
+  width: 40%;
+}
+
+.left-pitch-container{
+  font-size: 20px;
+  color: #fff;
+  font-weight: bold;
+  line-height: 20px;
+}
+
+.landing-right-container{
+  width: 60%;
+}
+
+.what-is-viamoris-container {
+  padding: 0 0.5rem;
+}
+
+.what-is-viamoris-container p{
+  font-size: 25px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.landing-container button{
+  background-color: #254e77;
+  color: #fff;
+  border-radius: 100rem;
+  width: 150px;
+  height:50px;
+  border: 2px solid #254e77;
+  cursor: pointer;
+}
+
+.what-is-viamoris-container button{
+  background-color: #254e77;
+  color: #fff;
+  border-radius: 100rem;
+  width: 150px;
+  height:50px;
+  border: 2px solid #254e77;
+  cursor: pointer;
+}
+
+.landing-container button:hover, .what-is-viamoris-container button:hover{
+  color:#c896b8;
+  background-color: #436f9a;
+  border: 2px solid #436f9a;
+}
 
 
 
@@ -288,6 +346,36 @@ body {
     background-color: #fff;
     color: #254e77;
     border-radius: 12px;
+  }
+
+  .landing-container{
+    display: block;
+  }
+
+  .landing-left-container{
+    width: 100%;
+  }
+  .landing-left-container h1{
+    line-height: 30px;
+  }
+  
+  
+  .landing-right-container{
+    width: 100%;
+  }
+  
+  .what-is-viamoris-container {
+    padding: 0 0.5rem;
+  }
+  
+  .what-is-viamoris-container p{
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .landing-img-container > img{
+    width: 100%;
   }
 
 }
