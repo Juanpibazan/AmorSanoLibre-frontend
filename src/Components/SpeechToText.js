@@ -14,7 +14,7 @@ import { actionTypes } from '../context/reducer';
 
 const SpeechToText = ()=>{
 
-    const [{session,user},dispatch] = useStateValue();
+    const [{session,user,requests_count},dispatch] = useStateValue();
     const [text,setText] = useState('');
     const [respuesta,setRespuesta] = useState('');
     const [completion,setCompletion] = useState('');
@@ -25,6 +25,8 @@ const SpeechToText = ()=>{
     const [voiceType, setVoiceType] = useState(user ? user.voice_type : '');
     const [requestType, setRequestType] = useState('');
     const [completionRequestId, setCompletioRequestId] = useState(0);
+    const [requestCount, setRequestCount] = useState(null);
+
 
     const completionRef = useRef();
     const audioElem =useRef();
@@ -38,6 +40,46 @@ const SpeechToText = ()=>{
         resetTranscript,
         browserSupportsSpeechRecognition
         } = useSpeechRecognition();
+
+    const insertIPIntoRequestscounter = async ()=>{
+            try {
+                const response = await axios({
+                    method:'post',
+                    url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/insertIPIntoRequestsCounter',
+                    data:{
+                        ipAddress:ip,
+                        requestType
+                    },
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods": 'HEAD, GET, POST, PUT, PATCH, DELETE',
+                        "Access-Control-Allow-Headers": 'Origin,  X-Requested-With, Content-Type, X-Auth-Token'
+                    }
+                });
+                if (response.status===201){
+                    setRequestCount(response.data.record);
+                    dispatch({
+                        type: actionTypes.SET_REQUESTS_COUNT,
+                        requests_count: response.data.record
+                    });
+                    localStorage.setItem('requests_count', JSON.stringify(response.data.record));
+                }
+                else if(response.status===200){
+                    setRequestCount(response.data.record);
+                    dispatch({
+                        type: actionTypes.SET_REQUESTS_COUNT,
+                        requests_count: response.data.record
+                    });
+                    localStorage.setItem('requests_count', JSON.stringify(response.data.record));
+                } 
+                else{
+                    console.log('No se pudo definir a requestCount')
+                }
+            } catch(e){
+                console.log(e);
+            }
+    };
 
     const sendPrompt = async (transcript)=>{
         const emailOrSession = user ? user.email : session.session_id
@@ -58,9 +100,11 @@ const SpeechToText = ()=>{
         console.log(data);
         setRespuesta(data.respuesta);
         setCompletioRequestId(data.completion_request_id);
+        setTimeout(()=>insertIPIntoRequestscounter(),10000);
         //setHowlSound(null);
         //createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
     };
+    
 
     /*const speak = async (text)=>{
         const {data} = await axios({
@@ -195,7 +239,47 @@ const SpeechToText = ()=>{
     };
 
     useEffect(()=>{
-        const getIPAddress = async ()=>{
+        const insertIPIntoRequestscounter = async (ip,request_type)=>{
+            try {
+                const response = await axios({
+                    method:'post',
+                    url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/insertIPIntoRequestsCounter',
+                    data:{
+                        ipAddress:ip,
+                        requestType:request_type
+                    },
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods": 'HEAD, GET, POST, PUT, PATCH, DELETE',
+                        "Access-Control-Allow-Headers": 'Origin,  X-Requested-With, Content-Type, X-Auth-Token'
+                    }
+                });
+                if (response.status===201){
+                    setRequestCount(response.data.record);
+                    dispatch({
+                        type: actionTypes.SET_REQUESTS_COUNT,
+                        requests_count: response.data.record
+                    });
+                    localStorage.setItem('requests_count', JSON.stringify(response.data.record));
+                }
+                else if(response.status===200){
+                    setRequestCount(response.data.record);
+                    dispatch({
+                        type: actionTypes.SET_REQUESTS_COUNT,
+                        requests_count: response.data.record
+                    });
+                    localStorage.setItem('requests_count', JSON.stringify(response.data.record));
+                } 
+                else{
+                    console.log('No se pudo definir a requestCount')
+                }
+            } catch(e){
+                console.log(e);
+            }
+        };
+
+        const getIPAddress = async (requestType)=>{
             const {data} = await axios({
                 method:'get',
                 url:'https://api.ipify.org/?format=json',
@@ -205,7 +289,7 @@ const SpeechToText = ()=>{
             });
             console.log('My IP Address: ', data.ip);
             setIp(data.ip);
-            if(data.ip !== null && user === null){
+            if(data.ip !== null && data.ip !=='' && data.ip !== undefined){
                 const response = await axios({
                     method:'post',
                     url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/recordIPAddress',
@@ -218,6 +302,7 @@ const SpeechToText = ()=>{
                 });
                 if(response.status===201){
                     console.log(response.data);
+                    insertIPIntoRequestscounter(data.ip, requestType);
                 }
             }
 
@@ -238,13 +323,16 @@ const SpeechToText = ()=>{
         if(user !== null){
             if(user.premium==='Y'){
                 setRequestType('pr');
+                getIPAddress('pr');
             } else if(user.premium==='N'){
                 setRequestType('sr');
+                getIPAddress('sr');
             }
         } else{
             setRequestType('ur');
+            getIPAddress('ur');
         }
-        getIPAddress();
+        //getIPAddress();
         setInterval(()=>{
             createCurrentDT();
         },1000);

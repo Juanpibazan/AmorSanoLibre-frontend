@@ -1,7 +1,8 @@
 
 export const actionTypes = {
     SET_USER:'SET_USER',
-    SET_SESSION:'SET_SESSION'
+    SET_SESSION:'SET_SESSION',
+    SET_REQUESTS_COUNT: 'SET_REQUESTS_COUNT'
 };
 
 export const reducer = (state,action)=>{
@@ -16,6 +17,11 @@ export const reducer = (state,action)=>{
             return {
                 ...state,
                 session: action.session
+            }
+        case actionTypes.SET_REQUESTS_COUNT:
+            return {
+                ...state,
+                requests_count: action.requests_count
             }
         default:
             return state;

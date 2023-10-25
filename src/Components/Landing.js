@@ -55,8 +55,8 @@ const Landing = ()=>{
             <div className='what-is-viamoris-container'>
                 <h1>De dónde nace Via Amoris?</h1>
                 <p>Via Amoris nace de una relación verdadera entre un joven y su pareja. Este joven era inexperto en relaciones amorosas y de paso le faltaba amor propio.
-                    Como se pueden imaginar, ésta no es una buena combinación. Fue todo un reto para él poder aportar lo suficiente a la relación, practicar un amor sano, dejar el miedo atrás y al mismo tiempo crecer en amor propio. Qué le habrías sugerido a este joven que haga? ......Tal vez ir a terapia? Pues eso hizo y le ayudó mucho, sin embargo no puedes tener a tu terapeuta en el bolsillo y hacerle preguntas o contarle emociones y buscar su consejo cuando estas viviendo una situación real que te representa un reto. O por lo menos eso es lo que pensabamos....</p>
-                <p>Para resolver este problema y actuar como tu terapeuta de bolsillo llegó Via Amoris</p>
+                    Como te puedes imaginar, ésta no es una buena combinación. Fue todo un reto para él poder aportar lo suficiente a la relación, practicar un amor sano, dejar el miedo atrás y al mismo tiempo crecer en amor propio. Qué le habrías sugerido a este joven que haga? . . . Tal vez ir a terapia? Pues eso hizo y le ayudó mucho, sin embargo no puedes tener a tu terapeuta en el bolsillo y hacerle preguntas o contarle emociones y buscar su consejo cuando estas viviendo una situación real que te representa un reto. O por lo menos eso es lo que pensabamos....</p>
+                <p>Para resolver este problema y actuar como tu terapeuta de bolsillo llegó Via Amoris !!!</p>
                 <button onClick={()=>navigate('/ask')} >Consulta a tu Orientador</button>
             </div>
         </div>
