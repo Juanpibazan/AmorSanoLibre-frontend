@@ -3,6 +3,7 @@ import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition'
 import axios from 'axios';
 import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
 import { BiRefresh } from 'react-icons/bi';
+import {FiLoader} from 'react-icons/fi';
 import { Howl } from 'howler';
 import moment from 'moment';
 
@@ -30,6 +31,7 @@ const SpeechToText = ()=>{
 
     const completionRef = useRef();
     const audioElem =useRef();
+    const loaderElem = document.getElementById('loader');
  
     /*const msg = new SpeechSynthesisUtterance();
     msg.lang = "es";*/
@@ -82,8 +84,10 @@ const SpeechToText = ()=>{
     };
 
     const sendPrompt = async (transcript)=>{
+        loaderElem.classList.replace('loader-hidden','loader');
         const emailOrSession = user ? user.email : session.session_id
-        const {data} = await axios({
+        try{
+            const response = await axios({
             method:'post',
             url:'https://stormy-ridge-57109-180df8a72b27.herokuapp.com/https://amorsanoylibre.azurewebsites.net/completions/',
             data:{
@@ -97,12 +101,20 @@ const SpeechToText = ()=>{
                 "Content-Type":"application/json"
             }
         });
-        console.log(data);
-        setRespuesta(data.respuesta);
-        setCompletioRequestId(data.completion_request_id);
-        setTimeout(()=>insertIPIntoRequestscounter(),10000);
+        if(response.status==201){
+            loaderElem.classList.replace('loader','loader-hidden');
+            console.log(response.data);
+            setRespuesta(response.data.respuesta);
+            setCompletioRequestId(response.data.completion_request_id);
+            setTimeout(()=>insertIPIntoRequestscounter(),10000);
+        }
+
         //setHowlSound(null);
         //createSound('https://amorsanoylibre.blob.core.windows.net/amorsanoylibre/YourAudioFile.wav?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-01T00:30:44Z&st=2023-10-04T16:30:44Z&spr=https,http&sig=9U54HHlNcT%2BcRNnoLX83v0ONY1Xj2lNWnsoRRnOUzoA%3D');
+    }
+    catch(err){
+        console.log(err);
+    }
     };
     
 
@@ -365,6 +377,9 @@ const SpeechToText = ()=>{
             <button onClick={SpeechRecognition.stopListening}>Stop</button>
             <button onClick={resetTranscript}>Reset</button>
             <p className='transcript'>{transcript}</p>
+            <div className='loader-container'>
+                <FiLoader id='loader'  className='loader-hidden' />
+            </div>
             <div>
                 <p className='respuesta' ref={completionRef}>{respuesta}</p>
             </div>
