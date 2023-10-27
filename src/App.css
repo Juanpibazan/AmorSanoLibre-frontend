@@ -1,6 +1,6 @@
 @font-face {
-  font-family: julius;
-  src: url('./fonts/Julius_Sans_One/JuliusSansOne-Regular.ttf');
+  font-family: comfortaa;
+  src: url('./fonts/Comfortaa/Comfortaa-VariableFont_wght.ttf');
 }
 
 html { 
@@ -13,7 +13,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: julius;
+  font-family: comfortaa;
 }
 
 
@@ -77,6 +77,10 @@ body {
   font-size:80px;
 }
 
+button{
+  font-family: comfortaa !important;
+}
+
 .register-btn{
   width:200px;
   height:50px;
@@ -85,7 +89,7 @@ body {
   font-weight: bold;
   cursor:pointer;
   border: 2px solid #254e77;
-  font-family: juilus;
+  font-family: comfortaa;
 }
 
 #register-back-btn{
@@ -164,10 +168,11 @@ body {
   align-items: center;
   vertical-align: middle;
   line-height: 100%;
+  margin-bottom: 100px;
 }
 
 .landing-left-container{
-  width: 40%;
+  width: 50%;
 }
 
 .left-pitch-container{
@@ -178,18 +183,33 @@ body {
 }
 
 .landing-right-container{
-  width: 60%;
+  width: 50%;
 }
 
 .what-is-viamoris-container {
   padding: 0 0.5rem;
+  display: grid;
+  grid-template-areas: "question1 image1"
+                        "image2 question2";
+  gap: 10px;
 }
 
-.what-is-viamoris-container p{
-  font-size: 25px;
-  font-weight: bold;
-  color: #fff;
+.what-is-viamoris-container-question1{
+  grid-area: question1;
 }
+
+.what-is-viamoris-container-image1{
+  grid-area: image1;
+}
+
+.what-is-viamoris-container-question2{
+  grid-area: question2;
+}
+
+.what-is-viamoris-container-image2{
+  grid-area: image2;
+}
+
 
 .landing-container button{
   background-color: #254e77;

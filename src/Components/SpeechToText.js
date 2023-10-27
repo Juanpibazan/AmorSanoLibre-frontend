@@ -362,7 +362,7 @@ const SpeechToText = ()=>{
 
     return (
         <div className='SpeechToText'>
-            <h1 className='speech-to-text-title'>Consulta a tu orientador</h1> <br/>
+            <h1 className='speech-to-text-title'>Sólo pregunta:</h1> <br/>
             {!user && (
                 <select className='voicetype_drop' value={voiceType} onChange={(e)=>setVoiceType(e.target.value)}>
                     <option disabled={true}  value='Elige la voz de tu orientador'>Elige la voz de tu orientador</option>

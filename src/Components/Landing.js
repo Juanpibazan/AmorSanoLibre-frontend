@@ -38,12 +38,10 @@ const Landing = ()=>{
             <div className='landing-container'>
                 <div className='landing-left-container'>
                     <div>
-                        <h1>Quieres mejorar en tus relaciones?</h1>
-                        <h3>Y con relaciones nos referimos a la relación contigo mismo, con tu pareja o con amigos y familiares...</h3>
+                        <h1 style={{fontSize:'40px'}}>¿Sientes que algo falta en tu relación?</h1>
+                        <h1 style={{color:'#fff'}}>Pregunta a Via Amoris y nuestra IA te dará un consejo</h1>
                     </div>
-                    <div className='left-pitch-container'>
-                        <p> Con Via Amoris lo puedes hacer y más rápido de lo que piensas. Deja que nuestro Orientador basado en IA te de las pautas y respuestas accionables que necesitas. Deja que iluminen tu camino y te acerquen al amor.</p>
-                    </div>
+
                     <button onClick={()=>navigate('/ask')}>Comienza a preguntar</button>
                 </div>
                 <div className='landing-right-container'>
@@ -53,12 +51,25 @@ const Landing = ()=>{
                 </div>
             </div>
             <div className='what-is-viamoris-container'>
-                <h1>Estás en tu auto y quieres terapia?</h1>
-                <h1>Solo necesitas sacar tu celular y entrar a VIA AMORIS</h1>
+                <div className='what-is-viamoris-container-question1'>
+                    <h1 style={{fontSize:'40px'}}>¿Estás en tu auto y quieres terapia?</h1>
+                    <h1 style={{color:'#fff'}}>Solo necesitas sacar tu celular y entrar a VIA AMORIS</h1>
+                    <button onClick={()=>navigate('/ask')} >Consulta a nuestra IA</button>
+                </div>
+                <div className='what-is-viamoris-container-image1'>
+                    <img src={Logo} />
+                </div>
                 {/*<p>Via Amoris nace de una relación verdadera entre un joven y su pareja. Este joven era inexperto en relaciones amorosas y de paso le faltaba amor propio.
                     Como te puedes imaginar, ésta no es una buena combinación. Fue todo un reto para él poder aportar lo suficiente a la relación, practicar un amor sano, dejar el miedo atrás y al mismo tiempo crecer en amor propio. Qué le habrías sugerido a este joven que haga? . . . Tal vez ir a terapia? Pues eso hizo y le ayudó mucho, sin embargo no puedes tener a tu terapeuta en el bolsillo y hacerle preguntas o contarle emociones y buscar su consejo cuando estas viviendo una situación real que te representa un reto. O por lo menos eso es lo que pensabamos....</p>*/}
-                <p>Para resolver este problema y actuar como tu terapeuta de bolsillo llegó Via Amoris !!!</p>
-                <button onClick={()=>navigate('/ask')} >Consulta a tu Orientador</button>
+                <div className='what-is-viamoris-container-image2'>
+                    <img src={Logo} />
+                </div>
+                <div className='what-is-viamoris-container-question2'>
+                    <h1 style={{fontSize:'40px'}}>¿Cansado de peleas?</h1>
+                    <h1 style={{color:'#fff'}}>Confía en Via Amoris. Pídele un consejo</h1>
+                    <button onClick={()=>navigate('/ask')} >¿Consejo?</button>
+                </div>
+
             </div>
         </div>
     )
