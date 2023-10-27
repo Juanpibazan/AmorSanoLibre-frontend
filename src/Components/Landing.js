@@ -6,8 +6,8 @@ import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
 import Logo from '../img/brandLogo.PNG';
 import SadCouple from '../img/Otros_En_Combates.png';
-import CryingPerson from '../img/person_sobbing_uncontrollably.png';
-import CoupleOnTable from '../img/silhouette__two_people_talking.png';
+import CryingPerson from '../img/sad_woman.jpg';
+import CoupleOnTable from '../img/couple_yelling.jpg';
 
 const Landing = ()=>{
 

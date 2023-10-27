@@ -201,6 +201,12 @@ button{
 
 .what-is-viamoris-container-question1{
   grid-area: question1;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 100%;
 }
 
 .what-is-viamoris-container-image1{
@@ -208,12 +214,18 @@ button{
 }
 
 .what-is-viamoris-container-image1>img{
-  width: 400px;
-  height: 200px;
+  width: 600px;
+  height: 400px;
 }
 
 .what-is-viamoris-container-question2{
   grid-area: question2;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 100%;
 }
 
 .what-is-viamoris-container-image2{
@@ -222,7 +234,7 @@ button{
 
 .what-is-viamoris-container-image2>img{
   width: 600px;
-  height: 300px;
+  height: 400px;
 }
 
 
