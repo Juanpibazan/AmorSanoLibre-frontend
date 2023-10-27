@@ -370,12 +370,12 @@ const SpeechToText = ()=>{
                     <option value='Sofia'>Sofia</option>
                 </select>
             )}
-            <p className='microphone-status'>Microphone { listening ? 'on' : 'off' }</p>
+            <p className='microphone-status'>Micrófono { listening ? 'on' : 'off' }</p>
             <button onClick={()=>SpeechRecognition.startListening({
                 language:'es'
-            })}>Start</button>
-            <button onClick={SpeechRecognition.stopListening}>Stop</button>
-            <button onClick={resetTranscript}>Reset</button>
+            })}>Hablar</button>
+            <button onClick={SpeechRecognition.stopListening}>Parar</button>
+            <button onClick={resetTranscript}>Resetear</button>
             <p className='transcript'>{transcript}</p>
             <div className='loader-container'>
                 <FiLoader id='loader'  className='loader-hidden' />
