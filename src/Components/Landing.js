@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
 import Logo from '../img/brandLogo.PNG';
+import SadCouple from '../img/Otros_En_Combates.png';
+import CryingPerson from '../img/person_sobbing_uncontrollably.png';
+import CoupleOnTable from '../img/silhouette__two_people_talking.png';
 
 const Landing = ()=>{
 
@@ -46,7 +49,7 @@ const Landing = ()=>{
                 </div>
                 <div className='landing-right-container'>
                     <div className='landing-img-container'>
-                        <img src={Logo} />
+                        <img src={SadCouple} />
                     </div>
                 </div>
             </div>
@@ -57,12 +60,12 @@ const Landing = ()=>{
                     <button onClick={()=>navigate('/ask')} >Consulta a nuestra IA</button>
                 </div>
                 <div className='what-is-viamoris-container-image1'>
-                    <img src={Logo} />
+                    <img src={CryingPerson} />
                 </div>
                 {/*<p>Via Amoris nace de una relación verdadera entre un joven y su pareja. Este joven era inexperto en relaciones amorosas y de paso le faltaba amor propio.
                     Como te puedes imaginar, ésta no es una buena combinación. Fue todo un reto para él poder aportar lo suficiente a la relación, practicar un amor sano, dejar el miedo atrás y al mismo tiempo crecer en amor propio. Qué le habrías sugerido a este joven que haga? . . . Tal vez ir a terapia? Pues eso hizo y le ayudó mucho, sin embargo no puedes tener a tu terapeuta en el bolsillo y hacerle preguntas o contarle emociones y buscar su consejo cuando estas viviendo una situación real que te representa un reto. O por lo menos eso es lo que pensabamos....</p>*/}
                 <div className='what-is-viamoris-container-image2'>
-                    <img src={Logo} />
+                    <img src={CoupleOnTable} />
                 </div>
                 <div className='what-is-viamoris-container-question2'>
                     <h1 style={{fontSize:'40px'}}>¿Cansado de peleas?</h1>

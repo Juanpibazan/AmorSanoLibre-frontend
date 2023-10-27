@@ -186,6 +186,11 @@ button{
   width: 50%;
 }
 
+.landing-img-container>img{
+  width: 500px;
+  height: 300px;
+}
+
 .what-is-viamoris-container {
   padding: 0 0.5rem;
   display: grid;
@@ -202,12 +207,22 @@ button{
   grid-area: image1;
 }
 
+.what-is-viamoris-container-image1>img{
+  width: 400px;
+  height: 200px;
+}
+
 .what-is-viamoris-container-question2{
   grid-area: question2;
 }
 
 .what-is-viamoris-container-image2{
   grid-area: image2;
+}
+
+.what-is-viamoris-container-image2>img{
+  width: 600px;
+  height: 300px;
 }
 
 
