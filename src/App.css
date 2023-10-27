@@ -175,6 +175,14 @@ button{
   width: 50%;
 }
 
+.landing-left-container button{
+  width: 400px !important;
+  height: 150px !important;
+  font-size: 30px;
+  box-shadow: 5px 5px 5px #494949;
+}
+
+
 .left-pitch-container{
   font-size: 20px;
   color: #fff;
@@ -209,6 +217,13 @@ button{
   line-height: 100%;
 }
 
+.what-is-viamoris-container-question1 button{
+  width: 400px !important;
+  height: 150px !important;
+  font-size: 30px;
+  box-shadow: 5px 5px 5px #494949;
+}
+
 .what-is-viamoris-container-image1{
   grid-area: image1;
 }
@@ -226,6 +241,13 @@ button{
   align-items: center;
   vertical-align: middle;
   line-height: 100%;
+}
+
+.what-is-viamoris-container-question2 button{
+  width: 400px !important;
+  height: 150px !important;
+  font-size: 30px;
+  box-shadow: 5px 5px 5px #494949;
 }
 
 .what-is-viamoris-container-image2{
