@@ -1,4 +1,5 @@
 import React, {useState,useEffect,useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import axios from 'axios';
 import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
@@ -6,6 +7,8 @@ import { BiRefresh } from 'react-icons/bi';
 import {FiLoader} from 'react-icons/fi';
 import { Howl } from 'howler';
 import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
@@ -28,7 +31,7 @@ const SpeechToText = ()=>{
     const [completionRequestId, setCompletioRequestId] = useState(0);
     const [requestCount, setRequestCount] = useState(null);
 
-
+    const navigate = useNavigate();
     const completionRef = useRef();
     const audioElem =useRef();
     const loaderElem = document.getElementById('loader');
@@ -350,6 +353,16 @@ const SpeechToText = ()=>{
         },1000);
     },[]);
 
+    useEffect(()=>{
+        if(requests_count !== null){
+            if(requests_count.remaining_requests<=0){
+                toast('Ya no dispones de sufcientes créditos para realizar consultas. Por favor pasate a Premium para tener consultas ilimitadas!')
+                setTimeout(()=>{return navigate('/')},60000);
+                
+            }
+        }
+    });
+
 
     if(!browserSupportsSpeechRecognition){
         return (
@@ -371,7 +384,7 @@ const SpeechToText = ()=>{
                 </select>
             )}
             <p className='microphone-status'>Micrófono { listening ? 'on' : 'off' }</p>
-            <button onClick={()=>SpeechRecognition.startListening({
+            <button style={requests_count.remaining_requests<=0 ? {backgroundColor:'#494949'} : {backgroundColor:'#c896b8'}} disabled={requests_count.remaining_requests<=0 ? true : false} onClick={()=>SpeechRecognition.startListening({
                 language:'es'
             })}>Hablar</button>
             <button onClick={SpeechRecognition.stopListening}>Parar</button>
@@ -391,6 +404,7 @@ const SpeechToText = ()=>{
                 <BiRefresh style={{width:'100px',height:'100px',cursor:'pointer'}} onClick={refeshAudio} />
             </div>
             )}
+            <ToastContainer position='top-center' />
         </div>
     )
 };
