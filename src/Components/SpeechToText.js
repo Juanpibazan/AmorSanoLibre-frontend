@@ -356,7 +356,7 @@ const SpeechToText = ()=>{
     useEffect(()=>{
         if(requests_count !== null){
             if(requests_count.remaining_requests<=0){
-                toast('Ya no dispones de sufcientes créditos para realizar consultas. Por favor pasate a Premium para tener consultas ilimitadas!')
+                toast('Ya no dispones de sufcientes créditos para realizar consultas. Por favor pasate a Premium para tener consultas ilimitadas!',{type:'error'});
                 setTimeout(()=>{return navigate('/')},60000);
                 
             }
