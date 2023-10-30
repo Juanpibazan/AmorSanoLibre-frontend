@@ -34,7 +34,7 @@ const Header = ()=>{
                     {!user && (
                         <li><Link to={'/login'}>Inicia Sesión</Link></li>
                     )}
-                    <li><Link to={'/'}>Ilumina tu camino aún más (Premium)</Link></li>
+                    <li><Link to={'/go-premium'}>Ilumina tu camino aún más (Premium)</Link></li>
                     {user && (
                         <li><Link onClick={logOut} to={'/'}>Cerrar Sesión</Link></li>
                     )}

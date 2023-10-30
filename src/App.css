@@ -286,6 +286,65 @@ button{
   border: 2px solid #436f9a;
 }
 
+.premium-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  vertical-align: middle;
+  line-height: 100%;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.benefits-container{
+  width: 30%;
+}
+
+.benefits-container > h2{
+  font-size: 40px;
+  line-height: 100%;
+  text-align: left;
+  color: #fff;
+  font-weight: #fff;
+}
+
+.benefits-list{
+  font-size: 30px;
+  line-height: 150%;
+  display: flex;
+  justify-content: initial;
+  flex-direction: column;
+  text-align: left;
+  color: #fff;
+}
+
+.happy-man-container > img{
+  width: 800px;
+  height: 600px;
+}
+
+.go-premium-btn{
+  width: 25%;
+  height: 100px !important;
+  border-radius: 100rem;
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px #494949;
+  background-color: #254e77;
+  color: #fff;
+}
+
+.go-premium-btn:hover{
+  background-color: #fff;
+  color: #c896b8;
+  font-weight: bolder;
+}
+
+.go-premium-title{
+  font-size: 60px;
+  color: #000000;
+}
+
 @keyframes infinite-rotation {
   0% {
     rotate: 0deg;
@@ -522,6 +581,55 @@ button{
     height: 150px !important;
     font-size: 30px;
     box-shadow: 5px 5px 5px #494949;
+  }
+
+  .premium-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .benefits-container{
+    width: 100%;
+  }
+  
+  .benefits-container > h2{
+    font-size: 40px;
+    line-height: 100%;
+    text-align: right;
+  }
+  
+  .benefits-list{
+    font-size: 30px;
+    line-height: 150%;
+    display: flex;
+    justify-content: initial;
+    flex-direction: column;
+    text-align: right;
+  }
+  
+  .happy-man-container > img{
+    width: 350px;
+    height: 300px;
+  }
+
+  .go-premium-btn{
+    width: 350px;
+    height: 100px !important;
+    border-radius: 100rem;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 5px 5px 5px #494949;
+    background-color: #254e77;
+    color: #fff;
+    margin-top: 20px ;
+  }
+
+  .go-premium-title{
+    font-size: 50px;
+    color: #000000;
   }
 
 
