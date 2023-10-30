@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 import { useStateValue } from '../context/StateProvider';
 import { actionTypes } from '../context/reducer';
@@ -15,6 +16,23 @@ const Landing = ()=>{
     const navigate = useNavigate();
 
     useEffect(()=>{
+        if(session !== null){
+            const session_id = uuidv4();
+            const current_time = moment().format("YYYY-MM-DD HH:mm:ss");
+            const expiration_time = moment(current_time).add(20,'minutes').format("YYYY-MM-DD HH:mm:ss");
+            dispatch({
+                type: actionTypes.SET_SESSION,
+                session: {
+                    session_id,
+                    expiration_time
+                }});
+    
+            localStorage.setItem('session', JSON.stringify({session_id,expiration_time}));
+        }
+
+    },[]);
+
+    useEffect(()=>{
         const createCurrentDT = ()=>{
             if(session !== null){
                 const current_dt = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -26,7 +44,7 @@ const Landing = ()=>{
                     });
                     localStorage.removeItem('session');
                 }
-            };
+            }
         }
         setInterval(()=>{
             createCurrentDT();

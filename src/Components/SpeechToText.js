@@ -7,6 +7,7 @@ import { BiRefresh } from 'react-icons/bi';
 import {FiLoader} from 'react-icons/fi';
 import { Howl } from 'howler';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -354,10 +355,34 @@ const SpeechToText = ()=>{
     },[]);
 
     useEffect(()=>{
-        if(requests_count !== null){
-            if(requests_count.remaining_requests<=0){
+        if(session !== null){
+            const session_id = uuidv4();
+            const current_time = moment().format("YYYY-MM-DD HH:mm:ss");
+            const expiration_time = moment(current_time).add(20,'minutes').format("YYYY-MM-DD HH:mm:ss");
+            dispatch({
+                type: actionTypes.SET_SESSION,
+                session: {
+                    session_id,
+                    expiration_time
+                }});
+    
+            localStorage.setItem('session', JSON.stringify({session_id,expiration_time}));
+        }
+
+    },[]);
+
+    useEffect(()=>{
+        if(requests_count !== null && howlSound !== null){
+            if(requests_count.remaining_requests<=0 && !howlSound.playing() ){
                 toast('Ya no dispones de sufcientes créditos para realizar consultas. Por favor pasate a Premium para tener consultas ilimitadas!',{type:'error'});
-                setTimeout(()=>{return navigate('/go-premium')},60000);
+                setTimeout(()=>{return navigate('/go-premium')},5000);
+                
+            }
+        }
+        else if(requests_count !== null && howlSound === null){
+            if(requests_count.remaining_requests<=0 ){
+                toast('Ya no dispones de sufcientes créditos para realizar consultas. Por favor pasate a Premium para tener consultas ilimitadas!',{type:'error'});
+                setTimeout(()=>{return navigate('/go-premium')},5000);
                 
             }
         }
@@ -384,9 +409,11 @@ const SpeechToText = ()=>{
                 </select>
             )}
             <p className='microphone-status'>Micrófono { listening ? 'on' : 'off' }</p>
+            {requests_count && (
             <button style={requests_count.remaining_requests<=0 ? {backgroundColor:'#494949'} : {backgroundColor:'#c896b8'}} disabled={requests_count.remaining_requests<=0 ? true : false} onClick={()=>SpeechRecognition.startListening({
                 language:'es'
             })}>Hablar</button>
+            )}
             <button onClick={SpeechRecognition.stopListening}>Parar</button>
             <button onClick={resetTranscript}>Resetear</button>
             <p className='transcript'>{transcript}</p>
